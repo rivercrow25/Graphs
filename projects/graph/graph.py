@@ -105,13 +105,25 @@ class Graph:
                         c.append(next_v)
                         q.push(c)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex, path=[]):
+    def dfs_recursive(self, starting_vertex, destination_vertex, path=[], visited=None):
+        print(path, ' at the start')
         path += [starting_vertex]
+        v = path[len(path)-1]
+        if visited is None:
+            visited = set()
 
-        for next_v in self.get_neighbors(starting_vertex):
-            if next_v not in path:
-                path = self.dfs_recursive(next_v, destination_vertex)
-        print(path, 'dfs recursive')
+        if v not in visited:
+            if v is destination_vertex:
+                print(path)
+                return path
+            else:
+                visited.add(v)
+
+                for next_v in self.get_neighbors(v):
+                    c = []
+                    c = [item for item in path]
+                    path = self.dfs_recursive(
+                        next_v, destination_vertex, c, visited)
         return path
 
 
@@ -182,3 +194,4 @@ if __name__ == '__main__':
     '''
     print(graph.dfs(1, 6))
     print(graph.dfs_recursive(1, 6))
+    print(graph.vertices)
