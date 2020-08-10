@@ -70,34 +70,49 @@ class Graph:
             if v not in visited:
                 if v is destination_vertex:
                     print(p, 'this is the path')
-                    print(v)
                     return p
                 else:
                     visited.add(v)
 
                     for next_v in self.get_neighbors(v):
-                        c = p
+                        c = []
+                        c = [item for item in p]
                         c.append(next_v)
                         q.enqueue(c)
+
         return None
 
     def dfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-        """
-        pass  # TODO
+        q = Stack()
+        q.push([starting_vertex])
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
+        visited = set()
 
-        This should be done using recursion.
-        """
-        pass  # TODO
+        while q.size() > 0:
+            p = q.pop()
+            v = p[len(p)-1]
+
+            if v not in visited:
+                if v is destination_vertex:
+                    print(p, 'this is the path')
+                    return p
+                else:
+                    visited.add(v)
+
+                    for next_v in self.get_neighbors(v):
+                        c = []
+                        c = [item for item in p]
+                        c.append(next_v)
+                        q.push(c)
+
+    def dfs_recursive(self, starting_vertex, destination_vertex, path=[]):
+        path += [starting_vertex]
+
+        for next_v in self.get_neighbors(starting_vertex):
+            if next_v not in path:
+                path = self.dfs_recursive(next_v, destination_vertex)
+        print(path, 'dfs recursive')
+        return path
 
 
 if __name__ == '__main__':
@@ -158,7 +173,7 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
